@@ -270,22 +270,22 @@ EndFunc   ;==>_ScreenSize
 Func _Internal_MatchLogger($Message)
 	Local $Timestamp = @YEAR & "/" & @MON & "/" & @MDAY & " " & @HOUR & ":" & @MIN & ":" & @SEC & " - "
 	If $OpenCV_AutoitConsoleLogging Then ConsoleWrite($Timestamp & $Message & @CRLF)
-	If $OpenCV_MatchLogging Then
-		Local $MatchLogFile = FileOpen(@ScriptDir & "\logfile.log", 1)
-		FileWrite($MatchLogFile, $Timestamp & $Message & @CRLF)
-		FileClose($MatchLogFile)
-	EndIf
+	;~ If $OpenCV_MatchLogging Then
+	;~ 	Local $MatchLogFile = FileOpen(@ScriptDir & "\logfile.log", 1)
+	;~ 	FileWrite($MatchLogFile, $Timestamp & $Message & @CRLF)
+	;~ 	FileClose($MatchLogFile)
+	;~ EndIf
 EndFunc   ;==>_Internal_MatchLogger
 
 Func _Internal_ErrorLogger($Message)
 
 	Local $Timestamp = @YEAR & "/" & @MON & "/" & @MDAY & " " & @HOUR & ":" & @MIN & ":" & @SEC & " - "
 	If $OpenCV_AutoitConsoleLogging Then ConsoleWrite($Timestamp & $Message & @CRLF)
-	If $OpenCV_ErrorLogging Then
-		Local $ErrorLogFile = FileOpen(@ScriptDir & "\OpenCV_Error.log", 1)
-		FileWrite($ErrorLogFile, $Timestamp & $Message & @CRLF)
-		FileClose($ErrorLogFile)
-	EndIf
+	;~ If $OpenCV_ErrorLogging Then
+	;~ 	Local $ErrorLogFile = FileOpen(@ScriptDir & "\OpenCV_Error.log", 1)
+	;~ 	FileWrite($ErrorLogFile, $Timestamp & $Message & @CRLF)
+	;~ 	FileClose($ErrorLogFile)
+	;~ EndIf
 EndFunc   ;==>_Internal_ErrorLogger
 
 

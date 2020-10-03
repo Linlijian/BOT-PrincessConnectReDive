@@ -1,10 +1,3 @@
-#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Version=Beta
-#AutoIt3Wrapper_Icon=D:\Users\po.klinmala\Downloads\login_w_4jR_icon.ico
-#AutoIt3Wrapper_Compile_Both=y
-#AutoIt3Wrapper_UseX64=y
-#AutoIt3Wrapper_Res_File_Add=E:\Autoit\BOT-PrincessConnectReDive\pic
-#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #include "OpenCV.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -114,18 +107,18 @@ Func Framing()
     If Not @error Then
         _Click($WinHandle,$Match1[0], $Match1[1])
         Sleep(500)
-
-        ;หารูปร้านค้าลับ
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\1.bmp", 0.70,$arry7,1,500)
-        If Not @error Then
-            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
-            If Not @error Then
-                Sleep(500)
-                _Click($WinHandle,$Match1[0], $Match1[1])
-                TrayTip("BOT-PrincessConnectReDive", "Hidden shop is Open!", 0, 1)
-            EndIf
-        EndIf 
 	EndIf
+
+    ;หารูปร้านค้าลับ
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\1.bmp", 0.70,$arry7,1,500)
+    If Not @error Then
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+        If Not @error Then
+            Sleep(500)
+            _Click($WinHandle,$Match1[0], $Match1[1])
+            TrayTip("BOT-PrincessConnectReDive", "Hidden shop is Open!", 0, 1)
+        EndIf
+    EndIf 
 
     ;play again
     $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\5.bmp", 0.70, $arry4,1,500)
