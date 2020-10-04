@@ -30,6 +30,8 @@ Global $arry7[4] = [632,478,251,54] ;ร้านค้าลับ
 Global $arry8[4] = [513,341,199,35] ;stamina
 Global $relationship[4] = [1114,63,75,54]
 Global $headMode[4] = [518,342,195,31]
+Global $levelUp[4] = [535,199,156,40]
+Global $submitLevelUp[4] = [579,491,75,29]
 
 
 HotKeySet("{ESC}", "_Terminate")
@@ -138,6 +140,17 @@ Func Framing()
     If Not @error Then
         Sleep(500)
         _Click($WinHandle,$Match1[0], $Match1[1])
+    EndIf
+
+    ;level up
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\11.bmp", 0.70,$levelUp,1,500)
+    If Not @error Then
+        ;submit level up
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\12.bmp", 0.70,$submitLevelUp,1,500)
+        If Not @error Then
+            Sleep(500)
+            _Click($WinHandle,$Match1[0], $Match1[1])
+        EndIf
     EndIf
 EndFunc
 
