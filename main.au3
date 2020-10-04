@@ -1,3 +1,6 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=D:\Users\po.klinmala\Downloads\login_w_4jR_icon.ico
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #include "OpenCV.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -25,6 +28,8 @@ Global $arry5[4] = [716,491,79,31]
 Global $arry6[4] = [416,487,105,42] ;ยกเลิก
 Global $arry7[4] = [632,478,251,54] ;ร้านค้าลับ
 Global $arry8[4] = [513,341,199,35] ;stamina
+Global $relationship[4] = [1114,63,75,54]
+Global $headMode[4] = [518,342,195,31]
 
 
 HotKeySet("{ESC}", "_Terminate")
@@ -80,19 +85,7 @@ Func Framing()
         Sleep(500)
 
         ;starmina loss
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\8.bmp", 0.70,$arry8,1,500)
-        If Not @error Then
-            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
-            If Not @error Then
-                Sleep(500)
-                _Click($WinHandle,$Match1[0], $Match1[1])
-                
-                ;stop bot
-                $aPause = Not $aPause
-                TrayTip("BOT-PrincessConnectReDive", "Little Stamina left to use in Mission!", 0, 1)
-                return;
-            EndIf
-        EndIf
+        StaminaLoss()
 
         ;select character
 		$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\3.bmp", 0.70, $arry2,1,500)
@@ -127,19 +120,10 @@ Func Framing()
         Sleep(500)
 
         ;stamina loss
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\8.bmp", 0.70,$arry8,1,500)
-        If Not @error Then
-            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
-            If Not @error Then
-                Sleep(500)
-                _Click($WinHandle,$Match1[0], $Match1[1])
-                
-                ;stop bot
-                $aPause = Not $aPause
-                TrayTip("BOT-PrincessConnectReDive", "Little Stamina left to use in Mission!", 0, 1)
-                return;
-            EndIf
-        EndIf
+        StaminaLoss()
+
+        ;head mode
+        HeadMode()
 
         ;submit play again
         $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\6.bmp", 0.70,$arry5,1,500)
@@ -147,6 +131,13 @@ Func Framing()
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
         EndIf
+    EndIf
+
+    ;relationship
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\9.bmp", 0.70,$relationship,1,500)
+    If Not @error Then
+        Sleep(500)
+        _Click($WinHandle,$Match1[0], $Match1[1])
     EndIf
 EndFunc
 
@@ -156,6 +147,38 @@ EndFunc
 
 Func Stop_Click()
     $aPause = Not $aPause
+EndFunc
+
+Func HeadMode()
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\10.bmp", 0.70,$headMode,1,500)
+        If Not @error Then
+            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+            If Not @error Then
+                Sleep(500)
+                _Click($WinHandle,$Match1[0], $Match1[1])
+                
+                ;stop bot
+                $aPause = Not $aPause
+                TrayTip("BOT-PrincessConnectReDive", "Head Mode the end 0/3!", 0, 1)
+                return;
+            EndIf
+        EndIf
+EndFunc
+
+Func StaminaLoss()
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\8.bmp", 0.70,$arry8,1,500)
+    If Not @error Then
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+        If Not @error Then
+            Sleep(500)
+            _Click($WinHandle,$Match1[0], $Match1[1])
+            
+            ;stop bot
+            $aPause = Not $aPause
+            TrayTip("BOT-PrincessConnectReDive", "Little Stamina left to use in Mission!", 0, 1)
+            return;
+        EndIf
+    EndIf
 EndFunc
 
 Func FormClose()
