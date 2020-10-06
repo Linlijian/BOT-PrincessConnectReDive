@@ -6,7 +6,6 @@
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 
-
 #Region ### Init ###
 Opt("GUIOnEventMode", 1)
 Opt("PixelCoordMode",2)
@@ -20,21 +19,22 @@ Global $aPause = False
 Global $WinHandle = WinGetHandle("NoxPlayer 7")
 Global $btn = "Start"
 
-Global $arry1[4] = [1032,589, 71,40]
-Global $arry2[4] = [1021, 592, 109,35]
-Global $arry3[4] = [1026,656,73,36]
-Global $arry4[4] = [788,643,121,31]
-Global $arry5[4] = [716,491,79,31]
-Global $arry6[4] = [416,487,105,42] ;ยกเลิก
-Global $arry7[4] = [632,478,251,54] ;ร้านค้าลับ
-Global $arry8[4] = [513,341,199,35] ;stamina
+Global $startMission[4] = [1050, 604, 135,66]
+Global $startSelectCharacter[4] = [1052, 604, 134,57]
+Global $next[4] = [1073, 678, 71,42]
+Global $hiddenShop[4] = [515, 303, 246,45]
+Global $calcenHiddenShop[4] = [451, 501, 87,42]
+Global $playAgin[4] = [820, 659, 122,46]
+Global $SubmitPlayAgin[4] = [752, 505, 70,32]
+Global $cancelHeadMode[4] = [454, 502, 81,38]
 Global $relationship[4] = [1114,63,75,54]
-Global $headMode[4] = [518,342,195,31]
-Global $levelUp[4] = [535,199,156,40]
-Global $submitLevelUp[4] = [579,491,75,29]
-
+Global $headMode[4] = [541, 352, 208,34]
+Global $levelUp[4] = [569, 207, 145,33]
+Global $submitLevelUp[4] = [600, 500, 82,39]
+Global $StaminaLoss[4] = [553, 350, 177,37]
 
 HotKeySet("{ESC}", "_Terminate")
+HotKeySet("{F4}", "SetScreen")
 #EndRegion ### END Init ###
 
 #Region ### START Koda GUI section ### Form=
@@ -67,47 +67,30 @@ Func _Terminate()
 EndFunc
 
 Func StartBot()
-        While 1
-            if not $aPause Then
-                Framing()          
-            Else
-                Sleep(200)
-            EndIf
+    While 1
+        if not $aPause Then
+            Framing()          
+        Else
             Sleep(200)
-        WEnd
+        EndIf
+        Sleep(200)
+    WEnd
 EndFunc
 
 Func Framing()
-	;lv up 574	493 645	522
-
-    ;start mission
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\2.bmp", 0.70, $arry1,1,500)
-    If Not @error Then
-        _Click($WinHandle,$Match1[0], $Match1[1])
-        Sleep(500)
-
-        ;starmina loss
-        StaminaLoss()
-
-        ;select character
-		$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\3.bmp", 0.70, $arry2,1,500)
-        If Not @error Then
-            Sleep(500)
-            _Click($WinHandle,$Match1[0], $Match1[1])
-        EndIf
-	EndIf
-
+    ;lv up 574	493 645	522
+    
     ;next result mission
-	$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\4.bmp", 0.70, $arry3,1,500)
+	$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\5.bmp", 0.70, $next,1,500)
     If Not @error Then
         _Click($WinHandle,$Match1[0], $Match1[1])
         Sleep(500)
 	EndIf
 
     ;หารูปร้านค้าลับ
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\1.bmp", 0.70,$arry7,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\6.bmp", 0.70,$hiddenShop,1,500)
     If Not @error Then
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\7.bmp", 0.70,$calcenHiddenShop,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
@@ -116,7 +99,7 @@ Func Framing()
     EndIf 
 
     ;play again
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\5.bmp", 0.70, $arry4,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\8.bmp", 0.70, $playAgin,1,500)
     If Not @error Then
         _Click($WinHandle,$Match1[0], $Match1[1])
         Sleep(500)
@@ -128,25 +111,25 @@ Func Framing()
         HeadMode()
 
         ;submit play again
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\6.bmp", 0.70,$arry5,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\6 copy.bmp", 0.70,$SubmitPlayAgin,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
         EndIf
     EndIf
 
-    ;relationship
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\9.bmp", 0.70,$relationship,1,500)
-    If Not @error Then
-        Sleep(500)
-        _Click($WinHandle,$Match1[0], $Match1[1])
-    EndIf
+    ;~ ;relationship
+    ;~ $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\9.bmp", 0.70,$relationship,1,500)
+    ;~ If Not @error Then
+    ;~     Sleep(500)
+    ;~     _Click($WinHandle,$Match1[0], $Match1[1])
+    ;~ EndIf
 
     ;level up
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\11.bmp", 0.70,$levelUp,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\12.bmp", 0.70,$levelUp,1,500)
     If Not @error Then
         ;submit level up
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\12.bmp", 0.70,$submitLevelUp,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\13.bmp", 0.70,$submitLevelUp,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
@@ -162,10 +145,28 @@ Func Stop_Click()
     $aPause = Not $aPause
 EndFunc
 
+Func SetScreen()
+
+    $aWidth = _WinAPI_GetWindowWidth($WinHandle)
+    $aHeight = _WinAPI_GetWindowHeight($WinHandle)
+
+    If $aWidth = 1280 Then return
+    If $aHeight = 720 Then return
+
+    WinMove($WinHandle,"",0,0,1200, 700)
+    Sleep(500)
+	WinMove($WinHandle,"",0,0,1280, 720)
+    Sleep(500)
+	WinSetState($WinHandle,"",@SW_MINIMIZE)
+	Sleep(500)
+	WinSetState($WinHandle,"",@SW_RESTORE)
+    Sleep(500) 
+EndFunc
+
 Func HeadMode()
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\10.bmp", 0.70,$headMode,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\14.bmp", 0.70,$headMode,1,500)
         If Not @error Then
-            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\15.bmp", 0.70,$cancelHeadMode,1,500)
             If Not @error Then
                 Sleep(500)
                 _Click($WinHandle,$Match1[0], $Match1[1])
@@ -179,9 +180,9 @@ Func HeadMode()
 EndFunc
 
 Func StaminaLoss()
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\8.bmp", 0.70,$arry8,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\16.bmp", 0.70,$StaminaLoss,1,500)
     If Not @error Then
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\pic\7.bmp", 0.70,$arry6,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\15.bmp", 0.70,$cancelHeadMode,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
