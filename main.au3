@@ -17,7 +17,7 @@ _OpenCV_EnableLogging(True,True,True)
 Global $sw = 0
 Global $aPause = False
 Global $WinHandle = WinGetHandle("NoxPlayer 7")
-Global $btn = "Start"
+Global $btn = "Continue"
 
 Global $startMission[4] = [1050, 604, 135,66]
 Global $startSelectCharacter[4] = [1052, 604, 134,57]
@@ -27,11 +27,13 @@ Global $calcenHiddenShop[4] = [451, 501, 87,42]
 Global $playAgin[4] = [820, 659, 122,46]
 Global $SubmitPlayAgin[4] = [752, 505, 70,32]
 Global $cancelHeadMode[4] = [454, 502, 81,38]
-Global $relationship[4] = [1114,63,75,54]
+Global $relationship[4] = [1165, 58, 65,45]
 Global $headMode[4] = [541, 352, 208,34]
 Global $levelUp[4] = [569, 207, 145,33]
 Global $submitLevelUp[4] = [600, 500, 82,39]
 Global $StaminaLoss[4] = [553, 350, 177,37]
+Global $missionFail[4] = [477, 40, 326,106]
+Global $submitMissionFail[4] = [960, 658, 233,50]
 
 HotKeySet("{ESC}", "_Terminate")
 HotKeySet("{F4}", "SetScreen")
@@ -81,25 +83,29 @@ Func Framing()
     ;lv up 574	493 645	522
     
     ;next result mission
-	$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\5.bmp", 0.70, $next,1,500)
+	$Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\nextMission.bmp", 0.70, $next,1,500)
     If Not @error Then
         _Click($WinHandle,$Match1[0], $Match1[1])
         Sleep(500)
 	EndIf
 
     ;หารูปร้านค้าลับ
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\6.bmp", 0.70,$hiddenShop,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\hiddenShop.bmp", 0.70,$hiddenShop,1,500)
     If Not @error Then
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\7.bmp", 0.70,$calcenHiddenShop,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\calcenHiddenShop.bmp", 0.70,$calcenHiddenShop,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
+
+            ;stop bot
+            $aPause = Not $aPause
             TrayTip("BOT-PrincessConnectReDive", "Hidden shop is Open!", 0, 1)
+            return;            
         EndIf
     EndIf 
 
     ;play again
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\8.bmp", 0.70, $playAgin,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\playAgin.bmp", 0.70, $playAgin,1,500)
     If Not @error Then
         _Click($WinHandle,$Match1[0], $Match1[1])
         Sleep(500)
@@ -111,28 +117,40 @@ Func Framing()
         HeadMode()
 
         ;submit play again
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\6 copy.bmp", 0.70,$SubmitPlayAgin,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\SubmitPlayAgin.bmp", 0.70,$SubmitPlayAgin,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
         EndIf
     EndIf
 
-    ;~ ;relationship
-    ;~ $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\9.bmp", 0.70,$relationship,1,500)
-    ;~ If Not @error Then
-    ;~     Sleep(500)
-    ;~     _Click($WinHandle,$Match1[0], $Match1[1])
-    ;~ EndIf
+    ;relationship
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\relationship.bmp", 0.70,$relationship,1,500)
+    If Not @error Then
+        Sleep(500)
+        _Click($WinHandle,$Match1[0], $Match1[1])
+    EndIf
 
     ;level up
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\12.bmp", 0.70,$levelUp,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\levelUp.bmp", 0.70,$levelUp,1,500)
     If Not @error Then
         ;submit level up
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\13.bmp", 0.70,$submitLevelUp,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\submitLevelUp.bmp", 0.70,$submitLevelUp,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
+        EndIf
+    EndIf
+
+    ;mission fail
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\missionFail.bmp", 0.70,$missionFail,1,500)
+    If Not @error Then
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\submitMissionFail.bmp", 0.70,$submitMissionFail,1,500)
+        If Not @error Then
+            Sleep(500)
+            _Click($WinHandle,$Match1[0], $Match1[1])
+            TrayTip("BOT-PrincessConnectReDive", "Mission Fail!", 0, 1)
+            return
         EndIf
     EndIf
 EndFunc
@@ -164,9 +182,9 @@ Func SetScreen()
 EndFunc
 
 Func HeadMode()
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\14.bmp", 0.70,$headMode,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\headMode.bmp", 0.70,$headMode,1,500)
         If Not @error Then
-            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\15.bmp", 0.70,$cancelHeadMode,1,500)
+            $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\cancelHeadMode.bmp", 0.70,$cancelHeadMode,1,500)
             If Not @error Then
                 Sleep(500)
                 _Click($WinHandle,$Match1[0], $Match1[1])
@@ -180,9 +198,9 @@ Func HeadMode()
 EndFunc
 
 Func StaminaLoss()
-    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\16.bmp", 0.70,$StaminaLoss,1,500)
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\StaminaLoss.bmp", 0.70,$StaminaLoss,1,500)
     If Not @error Then
-        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\15.bmp", 0.70,$cancelHeadMode,1,500)
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\cancelHeadMode.bmp", 0.70,$cancelHeadMode,1,500)
         If Not @error Then
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])

@@ -165,8 +165,8 @@ Func _WinCaptureAreaPosition($hWnd, $winX = -1, $winY = -1, $imgX = -1, $imgY = 
     If $winY = -1 Then $winY = _WinAPI_GetWindowHeight($hWnd)
     If $imgX = -1 Then $imgX = 0
     If $imgY = -1 Then $imgY = 0
-    If $winX < $imgX Then $imgX = 0
-    If $winY < $imgY Then $imgY = 0
+    ;~ If $winX < $imgX Then $imgX = 0
+    ;~ If $winY < $imgY Then $imgY = 0
 
     $hDDC = _WinAPI_GetDC($hWnd)
     $hCDC = _WinAPI_CreateCompatibleDC($hDDC)
