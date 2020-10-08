@@ -34,6 +34,8 @@ Global $submitLevelUp[4] = [600, 500, 82,39]
 Global $StaminaLoss[4] = [553, 350, 177,37]
 Global $missionFail[4] = [477, 40, 326,106]
 Global $submitMissionFail[4] = [960, 658, 233,50]
+Global $clanBattle[4] = [479, 98, 339,97]
+Global $cancelClanBattle[4] = [323, 522, 342,154]
 
 HotKeySet("{ESC}", "_Terminate")
 HotKeySet("{F4}", "SetScreen")
@@ -98,7 +100,8 @@ Func Framing()
             _Click($WinHandle,$Match1[0], $Match1[1])
 
             ;stop bot
-            $aPause = Not $aPause
+            ;$aPause = Not $aPause
+            
             TrayTip("BOT-PrincessConnectReDive", "Hidden shop is Open!", 0, 1)
             return;            
         EndIf
@@ -150,6 +153,18 @@ Func Framing()
             Sleep(500)
             _Click($WinHandle,$Match1[0], $Match1[1])
             TrayTip("BOT-PrincessConnectReDive", "Mission Fail!", 0, 1)
+            return
+        EndIf
+    EndIf
+
+    ;clan Battle
+    $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\clanBattle.bmp", 0.70,$clanBattle,1,500)
+    If Not @error Then
+        $Match1 = _ImageSearch($WinHandle,@ScriptDir&"\ImageBMP\cancelClanBattle.bmp", 0.70,$cancelClanBattle,1,500)
+        If Not @error Then
+            Sleep(500)
+            _Click($WinHandle,$Match1[0], $Match1[1])
+            TrayTip("BOT-PrincessConnectReDive", "CP of Clan Battle +1!", 0, 1)
             return
         EndIf
     EndIf

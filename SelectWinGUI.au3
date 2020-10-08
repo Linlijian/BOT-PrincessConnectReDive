@@ -136,10 +136,41 @@ Func SelectSaveImageArea()
 	While $isShowSaveImage 
 		MouseUp("")
 		MarkRectGUI()
-		TrayTip("Select Windown GUI", "Save Complete", 0, 1)
+		CaluPosSaveImg()
 		SaveImage()
+		TrayTip("Select Windown GUI", "Save Complete", 0, 1)
 		ExitLoop		
 	WEnd
+EndFunc
+
+; ===============================================================================================================================
+; Description ...: Calu Pos Save Img
+; Author ........: Linlijian
+; Notes .........: Press F1 to use
+; Modified.......: Linlijian
+; ===============================================================================================================================
+Func CaluPosSaveImg()
+	; =======================================================
+	; v.1.0.1
+	; Modified.......: Linlijian
+	; Note...........: Fix position in full screen calu scal
+	; =======================================================
+	
+	$GuiPos = WinGetPos($WGImage)
+	
+	$PosCapX1 = $GuiPos[0] + $iX1
+	$PosCapY1 = $GuiPos[1] + $iY1
+	$PosCapX2 = $GuiPos[0] + $iX2
+	$PosCapY2 = $GuiPos[1] + $iY2
+	;ConsoleWrite($PosCapX1&','&$PosCapY1&' ')
+
+	$iX1 = $PosCapX1
+	$iY1 = $PosCapY1
+	$iX2 = $PosCapX2
+	$iY2 = $PosCapY2
+	$iX2 = ($iX2 - $iX1)
+	$iY2 = ($iY2 - $iY1)
+
 EndFunc
 
 ; ===============================================================================================================================
@@ -152,10 +183,29 @@ Func SelectImageArea()
 	While $isShowImage 
 		MouseUp("")
 		MarkRectGUI()
+		CaluPosImg()
 		ClipPut($iX1 & ', ' & $iY1 & ', ' & $iX2 & ',' & $iY2)
 		TrayTip("Select Windown GUI", "Match-Coordinates been copied to the clipboard.", 0, 1)
 		ExitLoop		
 	WEnd
+EndFunc
+
+; ===============================================================================================================================
+; Description ...: Calu Pos Img without save img
+; Author ........: Linlijian
+; Notes .........: Press F2 to use
+; Modified.......: Linlijian
+; ===============================================================================================================================
+Func CaluPosImg()
+
+	;cal pos without title for save
+	$iX1 = $iX1 - $windowsWidth
+	$iY1 = $iY1 - $windowsHeight
+	$iX2 = $iX2 - $windowsWidth
+	$iY2 = $iY2 - $windowsHeight
+	$iX2 = ($iX2 - $iX1)
+	$iY2 = ($iY2 - $iY1)
+
 EndFunc
 
 ; ===============================================================================================================================
@@ -239,7 +289,7 @@ Func MarkRectGUI()
 		If WinGetState($hRectangle_GUI) < 15 Then GUISetState()
 		Sleep(10)
 
-	WEnd
+	WEnd	
 
 	; Get second mouse position
 	$iX2 = $aMouse_Pos[0]
@@ -257,13 +307,9 @@ Func MarkRectGUI()
 		$iY2 = $iTemp
 	EndIf
 
-	;cal pos without title for save
-	$iX1 = $iX1 - $windowsWidth
-	$iY1 = $iY1 - $windowsHeight
-	$iX2 = $iX2 - $windowsWidth
-	$iY2 = $iY2 - $windowsHeight
-	$iX2 = ($iX2 - $iX1)
-	$iY2 = ($iY2 - $iY1)
+	
+
+
 
 	GUIDelete($hRectangle_GUI)
 	GUIDelete($hCross_GUI)
@@ -273,12 +319,12 @@ EndFunc
 ; ===============================================================================================================================
 ; Description ...: Save Image for image search
 ; Author ........: Linlijian
-; Notes .........: 
+; Notes .........: v.1.0.1 fix parameter $hWnd = null (Full screen)
 ; Modified.......: Linlijian
 ; ===============================================================================================================================
 Func SaveImage()
 	$runningNum = $runningNum + 1
-	$image = _WinCaptureAreaPosition($WGHandle, $iX1, $iY1, $iX2, $iY2)
+	$image = _WinCaptureAreaPosition('', $iX1, $iY1, $iX2, $iY2)
 	DirCreate($pathSaveImage & "\ImageBMP\")
 	_ScreenCapture_SaveImage($pathSaveImage & '\ImageBMP\' & $runningNum & '.bmp', $image)
 EndFunc
